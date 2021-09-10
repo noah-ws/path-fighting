@@ -6,7 +6,7 @@
         </div>
         <div class="rounded-divider"></div>
         <div class="entity-speed-row">
-            <label class="speed-label">Speed:</label>
+            <label class="speed-label">Speed</label>
             <input type="range" class="entity-customizer-speed-slider" min="1" max="30" value="15" />
         </div>
         <div class="entity-size-row">
@@ -23,8 +23,8 @@
             </div>
             <div class="entity-customizer-color-picker-pointer"></div>
         </div>
-        <div class="matchups-label">Matchups:</div>
         <div class="entity-customizer-matchups-container">
+            <div class="matchups-label">Matchups</div>
             <table class="matchups-table">
                 <thead>
                     <tr>
@@ -33,14 +33,26 @@
                         <th>Predator</th>
                     </tr>
                 </thead>
-                <tbody></tbody>
+                <tbody>
+                    <MatchupsRow rowLabel="test" />
+                    <MatchupsRow rowLabel="test" />
+                    <MatchupsRow rowLabel="test" />
+                    <MatchupsRow rowLabel="test" />
+                    <MatchupsRow rowLabel="test" />
+                    <MatchupsRow rowLabel="test" />
+                </tbody>
             </table>
         </div>
     </div>
 </template>
 
 <script>
+import MatchupsRow from './MatchupsRow.vue';
+
 export default {
+  components: { 
+      MatchupsRow 
+  },
   name: "EntityEditorItem",
   props: {
   },
@@ -51,29 +63,37 @@ export default {
 .entity-container {
     position: relative;
     height: 35%;
-    border-top: 2px solid rgb(187, 187, 187);;
-    border-bottom: 4px solid rgb(187, 187, 187);
     background-color: rgb(68, 68, 68);
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     align-items: center;
+    gap: 5px;
+    padding-top: 2%;
+    padding-bottom: 12.5%;
+    
+    border-bottom: 2px solid rgb(187, 187, 187);
+    border-top: 2px solid rgb(187, 187, 187);;
 }
 
 .entity-customizer-header
 {
     display: flex;
+    gap: 10px;
+    align-items: center;
     flex-wrap: nowrap;
-    width: 97%;
+    width: 93%;
     /* justify-content:space-evenly; */
-    flex: 1;
+    flex: 5;
+    padding-left: 5%;
+    padding-right: 6%;
 }
 
 .entity-customizer-text-box
 {
     border: 1px solid rgb(32, 32, 32);
     border-radius: 30px;
-    height: 70%;
+    height: 80%;
     min-width: 5px;
     flex: 20;
     outline-width: 0;
@@ -106,9 +126,11 @@ export default {
 {
     display: flex;
     flex-wrap: nowrap;
-    width: 97%;
+    width: 95%;
     /* justify-content:space-evenly; */
     flex: 5;
+    gap: 10px;
+    padding-left: 1%;
 }
 
 .speed-label
@@ -157,9 +179,11 @@ export default {
 {
     display: flex;
     flex-wrap: nowrap;
-    width: 97%;
+    width: 95%;
     /* justify-content:space-evenly; */
     flex: 5;
+    gap: 13px;
+    padding-left: 1%;
 }
 
 .size-label
@@ -208,9 +232,11 @@ export default {
 {
     display: flex;
     flex-wrap: nowrap;
-    width: 97%;
+    width: 95%;
     /* justify-content:space-evenly; */
     flex: 5;
+    gap: 10px;
+    align-items: center;
 }
 
 .color-label
@@ -223,7 +249,7 @@ export default {
 .entity-customizer-color-box
 {
     width: 100%;
-    height: 75%;
+    height: 50%;
     background-color: rgba(71, 68, 255, 0.363);
     border: rgb(109, 109, 109);
     border-radius: 20px;
@@ -282,12 +308,24 @@ export default {
 
 .matchups-label
 {
-    flex: 0.5;
+    flex: 0.2;
     font-size: 2vh;
+}
+
+.rounded-divider-matchups
+{
+    background-color:  rgb(255, 0, 0);
+    width: 97%;
+    flex: 0.03;
+    border-radius: 50px;
 }
 
 .entity-customizer-matchups-container
 {
+    display: flex;
+    gap: 1px;
+    flex-direction: column;
+    align-items: center;
     width: 90%;
     height: 90%;
     background-color: rgb(109, 109, 109);
@@ -295,6 +333,13 @@ export default {
     flex: 30;
     overflow-x: hidden;
     overflow-y: auto;
+    padding-top: 1%;
+}
+
+.matchups-table {
+    flex: 5;
+    width: 90%;
+    border-radius: 20px;
 }
 
 .matchups-table thead tr

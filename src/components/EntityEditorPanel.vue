@@ -6,6 +6,9 @@
         </div>
         <EntityEditorItem />
         <EntityEditorItem />
+        <EntityEditorItem />
+        <EntityEditorItem />
+        <EntityEditorItem />
     </div>
 </template>
 
@@ -30,7 +33,7 @@ export default {
     z-index: 1;
     top: 0;
     left: 0;
-    background-color: #111;
+    background-color: rgb(40, 40, 40);
     overflow-x: hidden;
     border-radius: 25px;
     opacity: 0.9;
@@ -40,17 +43,7 @@ export default {
 {
     width: 100%;
     height: 5%;
-    background-color: #818181;
-    display: flex;
-    /* position: sticky; */
-    flex-wrap: nowrap;
-}
-
-.sidenav-header
-{
-    width: 100%;
-    height: 5%;
-    background-color: #818181;
+    background-color: rgb(150, 150, 150);
     display: flex;
     /* position: sticky; */
     flex-wrap: nowrap;
