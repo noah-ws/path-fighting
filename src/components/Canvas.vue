@@ -14,13 +14,13 @@ export default {
   name: "Canvas",
   data: function () {
     return {
-      debugGui: null,
-      scene: null,
-      camera: null,
-      renderer: null,
-      testCube: null,
+      // debugGui: null,
+      // scene: null,
+      // camera: null,
+      // renderer: null,
+      // testCube: null,
+      // grid: null,
       windowSize: null,
-      grid: null,
     }
   },
   props: {
@@ -28,8 +28,8 @@ export default {
   methods: {
       init: function() {
         // Debug
-        this.debugGui = new dat.GUI();
-        this.debugGui.domElement.id = 'gui';
+        this.$options.debugGui = new dat.GUI();
+        this.$options.debugGui.domElement.id = 'gui';
 
         const canvas = document.getElementById('webgl-canvas');
         const floorHeight = -25;
@@ -37,35 +37,35 @@ export default {
 
 
         // RENDERER
-        this.renderer = new THREE.WebGLRenderer({
+        this.$options.renderer = new THREE.WebGLRenderer({
             canvas: canvas, alpha: true, 
         });        
-        this.renderer.setSize(this.windowSize.width, this.windowSize.height);
-        this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        this.$options.renderer.setSize(this.windowSize.width, this.windowSize.height);
+        this.$options.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
         // SHADOWS
-        // this.renderer.shadowMap.enabled = true;
-        // this.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+        this.$options.renderer.shadowMap.enabled = true;
+        this.$options.renderer.shadowMap.type = THREE.PCFSoftShadowMap;
         
         // SCENE
-        this.scene = new THREE.Scene();
+        this.$options.scene = new THREE.Scene();
 
         // CAMERA
-        this.camera = new THREE.PerspectiveCamera(75, 2, 0.1, 500);
-        this.camera.position.set(630, -292, 170); // 190, -65, 150
-        const cameraPositionDebug = this.debugGui.addFolder('Camera Position');
-        cameraPositionDebug.add(this.camera.position, 'x').step(0.5);
-        cameraPositionDebug.add(this.camera.position, 'y').step(0.5);
-        cameraPositionDebug.add(this.camera.position, 'z').step(0.5);
-        const cameraRotationDebug = this.debugGui.addFolder('Camera Rotation');
-        cameraRotationDebug.add(this.camera.rotation, 'x').step(0.05);
-        cameraRotationDebug.add(this.camera.rotation, 'y').step(0.05);
-        cameraRotationDebug.add(this.camera.rotation, 'z').step(0.05);
-        this.scene.add(this.camera);
+        this.$options.camera = new THREE.PerspectiveCamera(75, 2, 0.1, 500);
+        this.$options.camera.position.set(630, -292, 170); // 190, -65, 150
+        const cameraPositionDebug = this.$options.debugGui.addFolder('Camera Position');
+        cameraPositionDebug.add(this.$options.camera.position, 'x').step(0.5);
+        cameraPositionDebug.add(this.$options.camera.position, 'y').step(0.5);
+        cameraPositionDebug.add(this.$options.camera.position, 'z').step(0.5);
+        const cameraRotationDebug = this.$options.debugGui.addFolder('Camera Rotation');
+        cameraRotationDebug.add(this.$options.camera.rotation, 'x').step(0.05);
+        cameraRotationDebug.add(this.$options.camera.rotation, 'y').step(0.05);
+        cameraRotationDebug.add(this.$options.camera.rotation, 'z').step(0.05);
+        this.$options.scene.add(this.$options.camera);
 
         // LIGHTING
         const ambientLight = new THREE.AmbientLight(0x404040);
-        this.scene.add(ambientLight);
+        this.$options.scene.add(ambientLight);
 
         const pointLight = new THREE.PointLight(0xffffff, 0.15);
         pointLight.position.set(0, 0, 40);
@@ -75,11 +75,11 @@ export default {
         pointLight.intensity = 1;
         pointLight.castShadow = true;
         // pointLight.distance = 500;
-        this.scene.add(pointLight);
+        this.$options.scene.add(pointLight);
         const sphereSize = 1;
         const pointLightHelper = new THREE.PointLightHelper( pointLight, sphereSize );
-        this.scene.add( pointLightHelper );
-        const pointLightDebug = this.debugGui.addFolder('PointLight');
+        this.$options.scene.add( pointLightHelper );
+        const pointLightDebug = this.$options.debugGui.addFolder('PointLight');
         pointLightDebug.add(pointLight.position, 'x').step(0.5);
         pointLightDebug.add(pointLight.position, 'y').step(0.5);
         pointLightDebug.add(pointLight.position, 'z').step(0.5);
@@ -92,28 +92,28 @@ export default {
         var backgroundPlane = new THREE.Mesh(backgroundPlaneGeometry, backgroundPlaneMesh);
         backgroundPlane.position.set(300, -150, floorHeight);
         backgroundPlane.receiveShadow = true;
-        this.scene.add(backgroundPlane);
+        this.$options.scene.add(backgroundPlane);
 
          // TEST CUBE
         const cubeGeom = new THREE.BoxGeometry(20, 20, 20);
         const cubeMaterial = new THREE.MeshStandardMaterial({ color: 0xFF00FF });
-        this.testCube = new THREE.Mesh(cubeGeom, cubeMaterial);
-        this.testCube.position.set(630, -292, 50);
-        this.testCube.castShadow = true;
-        this.testCube.receiveShadow = true;
-        this.scene.add(this.testCube);
+        this.$options.testCube = new THREE.Mesh(cubeGeom, cubeMaterial);
+        this.$options.testCube.position.set(630, -292, 50);
+        this.$options.testCube.castShadow = true;
+        this.$options.testCube.receiveShadow = true;
+        this.$options.scene.add(this.$options.testCube);
         
         const nodeWidth = boxDimensions;
         const gWidth = 139; // 139 w/ boxDimensions * 2
         const gHeight = 55; // 55 w/ boxDimensions * 2
-        this.grid = new NodeGrid(gHeight, gWidth, this.scene, { x: 0 + nodeWidth / 2, y: 0 - nodeWidth / 2, z: 40 }, nodeWidth);
+        this.$options.grid = new NodeGrid(gHeight, gWidth, this.$options.scene, { x: 0 + nodeWidth / 2, y: 0 - nodeWidth / 2, z: floorHeight }, nodeWidth);
 
       },
       animate: function() {
-        this.renderer.render(this.scene, this.camera);
+        this.$options.renderer.render(this.$options.scene, this.$options.camera);
 
-        this.testCube.rotation.x += 0.01;
-        this.testCube.rotation.y += 0.01;
+        this.$options.testCube.rotation.x += 0.01;
+        this.$options.testCube.rotation.y += 0.01;
 
         requestAnimationFrame(this.animate);
     }
