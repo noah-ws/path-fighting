@@ -6,9 +6,6 @@
         </div>
         <EntityEditorItem />
         <EntityEditorItem />
-        <EntityEditorItem />
-        <EntityEditorItem />
-        <EntityEditorItem />
     </div>
 </template>
 

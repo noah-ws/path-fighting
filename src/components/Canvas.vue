@@ -1,5 +1,5 @@
 <template>
-    <div class="canvas-container" id="canvas-container">
+    <div class="canvas-container" id="canvas-container" @keydown="keyDown" @keyup="keyUp">
         <canvas class="webgl-canvas" id="webgl-canvas"></canvas>
     </div>
 </template>
@@ -21,12 +21,31 @@ export default {
       // testCube: null,
       // grid: null,
       windowSize: null,
+      controls: {
+        zoomIn: false,
+        zoomOut: false,
+        up: false,
+        left: false,
+        down: false,
+        right: false,
+      },
+      cameraMoveSpeed: 0.05,
+      lastUpdate: null,
     }
   },
   props: {
   },
   methods: {
-      init: function() {
+      moveCamera: function (delta) {
+        if (this.controls.zoomIn) this.$options.camera.position.z -= this.cameraMoveSpeed * delta;
+        if (this.controls.zoomOut) this.$options.camera.position.z += this.cameraMoveSpeed * delta;
+
+        if (this.controls.up) this.$options.camera.position.y += this.cameraMoveSpeed * delta;
+        if (this.controls.left) this.$options.camera.position.x -= this.cameraMoveSpeed * delta;
+        if (this.controls.down) this.$options.camera.position.y -= this.cameraMoveSpeed * delta;
+        if (this.controls.right) this.$options.camera.position.x += this.cameraMoveSpeed * delta;
+      },
+      init: function () {
         // Debug
         this.$options.debugGui = new dat.GUI();
         this.$options.debugGui.domElement.id = 'gui';
@@ -107,10 +126,15 @@ export default {
         const gWidth = 139; // 139 w/ boxDimensions * 2
         const gHeight = 55; // 55 w/ boxDimensions * 2
         this.$options.grid = new NodeGrid(gHeight, gWidth, this.$options.scene, { x: 0 + nodeWidth / 2, y: 0 - nodeWidth / 2, z: floorHeight }, nodeWidth);
-
       },
-      animate: function() {
+      animate: function () {
         this.$options.renderer.render(this.$options.scene, this.$options.camera);
+
+        var now = Date.now();
+        var delta = now - this.lastUpdate;
+        this.lastUpdate = now;
+
+        this.moveCamera(delta);
 
         this.$options.testCube.rotation.x += 0.01;
         this.$options.testCube.rotation.y += 0.01;
@@ -140,7 +164,93 @@ export default {
       // Update renderer
       this.renderer.setSize(this.windowSize.width, this.windowSize.height)
       this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
-    })
+    });
+
+    document.onkeydown = () => {
+      var e = e || window.event;
+
+      switch (e.keyCode) {
+          // case 80:
+          //     p = true;
+          //     break;
+          case 87:
+              this.controls.up = true;
+              break;
+          case 65:
+              this.controls.left = true;
+              break;
+          case 83:
+              this.controls.down = true;
+              break;
+          case 68:
+              this.controls.right = true;
+              break;
+          // case 38:
+          //     aUp = true;
+          //     break;
+          // case 37:
+          //     aLeft = true;
+          //     break;
+          // case 40:
+          //     aDown = true;
+          //     break;
+          // case 39:
+          //     aRight = true;
+          //     break;
+          case 81:
+              this.controls.zoomOut = true;
+              break;
+          case 69:
+              this.controls.zoomIn = true;
+              break;
+          // case 17:
+          //     ctrl = true;
+          //     break;
+      }
+  }
+
+  document.onkeyup = () => {
+      var e = e || window.event;
+
+      switch (e.keyCode) {
+          // case 80:
+          //     p = false;
+          //     break;
+          case 87:
+              this.controls.up = false;
+              break;
+          case 65:
+              this.controls.left = false;
+              break;
+          case 83:
+              this.controls.down = false;
+              break;
+          case 68:
+              this.controls.right = false;
+              break;
+          // case 38:
+          //     aUp = false;
+          //     break;
+          // case 37:
+          //     aLeft = false;
+          //     break;
+          // case 40:
+          //     aDown = false;
+          //     break;
+          // case 39:
+          //     aRight = false;
+          //     break;
+          case 81:
+              this.controls.zoomOut = false;
+              break;
+          case 69:
+              this.controls.zoomIn = false;
+              break;
+          // case 17:
+          //     ctrl = false;
+          //     break;
+      }
+  }
   },
 };
 </script>
